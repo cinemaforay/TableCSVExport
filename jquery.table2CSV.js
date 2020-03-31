@@ -26,7 +26,7 @@ jQuery.fn.table2CSV = function(options) {
     var columnCounter = 0;
 
     //header
-    var numCols = options.header.length; 
+    var numCols = options.header.length;
     var tmpRow = []; // construct header avalible array
 
     if (numCols > 0) {
@@ -43,7 +43,7 @@ jQuery.fn.table2CSV = function(options) {
 		   columnCounter++;
                 }
              }
-          }       
+          }
        }
     } else {
        jQuery(el).filter(':visible').find('th').each(function() {
@@ -105,7 +105,13 @@ jQuery.fn.table2CSV = function(options) {
     }
     function popup(data) {
 	if (options.delivery == 'download') {
-           window.location='data:text/csv;charset=utf8,' + encodeURIComponent(data);
+            csvFile = new Blob([data], {type:"text/csv"});
+            downloadLink = document.createElement("a");
+            downloadLink.download = "sample.csv";
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
            return true;
 	} else {
            var generator = window.open('', 'csv', 'height=400,width=600');
